@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
+//import 'package:flutter_switch/flutter_switch.dart';
 
 class Devices extends StatefulWidget {
   Devices({Key key}) : super(key: key);
@@ -21,6 +21,7 @@ class _DevicesState extends State<Devices> {
         child: GestureDetector(
           onTap: () {
             _onTileClicked();
+            _onTab(true);
           },
           child: Container(
             height: 200,
@@ -34,23 +35,7 @@ class _DevicesState extends State<Devices> {
                       padding: EdgeInsets.only(top: 15, left: 15),
                       child: Align(
                         alignment: Alignment.topRight,
-                        child: FlutterSwitch(
-                          value: isChecked,
-                          onToggle: (value) {
-                            setState(
-                              () {
-                                isChecked = value;
-                                print('$value');
-                              },
-                            );
-                          },
-                          height: 25.0,
-                          width: 55.0,
-                          padding: 4.0,
-                          toggleSize: 25.0,
-                          borderRadius: 10.0,
-                          activeColor: Colors.green,
-                        ),
+                        child: Switch(value: isChecked, onChanged: _onTab),
                       ),
                     ),
                   ],
@@ -63,13 +48,26 @@ class _DevicesState extends State<Devices> {
     );
   }
 
+  _onTab(bool val) {
+    {
+      setState(() {
+        if (isChecked == val) {
+          isChecked = false;
+          print('$val');
+        } else {
+          isChecked = true;
+        }
+      });
+    }
+  }
+
   void _onTileClicked() {
     setState(() {
-      if (containerState == 0) {
-        containerState = 1;
+      if (containerState == 1) {
+        containerState = 0;
         containerBackColor = BoxDecoration(color: Colors.grey);
       } else {
-        containerState = 0;
+        containerState = 1;
         containerBackColor = BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -85,12 +83,19 @@ class _DevicesState extends State<Devices> {
   }
 }
 
-// Switch(
-//                         value: isChecked,
-//                         onChanged: (bool val) {
-//                           setState(() {
-//                             isChecked = val;
-//                             print('$val');
-//                           });
-//                         },
-//                       ),
+// FlutterSwitch(
+//                           value: isChecked,
+//                           onToggle: (value) {
+//                             setState(
+//                               () {
+//                                 isChecked = value;
+//                               },
+//                             );
+//                           },
+//                           height: 25.0,
+//                           width: 55.0,
+//                           padding: 4.0,
+//                           toggleSize: 25.0,
+//                           borderRadius: 10.0,
+//                           activeColor: Colors.green,
+//                         ),

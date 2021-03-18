@@ -5,6 +5,10 @@ import '../widgets/button_state_control.dart';
 import '../widgets/devices.dart';
 import '../widgets/weather_status.dart';
 import '../models/location.dart';
+import '../widgets/bottomNavBar.dart';
+import '../pages/main_page.dart';
+import 'setting.dart';
+import 'status_page.dart';
 
 const apiKey = '44bb3f265275459c2c9f5a84eedbda66';
 
@@ -19,8 +23,17 @@ class _HomePageState extends State<HomePage> {
   double latitude;
   double longitude;
 
+  int _selectedIndex = 1;
+  List<Widget> _children;
+
   @override
   void initState() {
+    _children = [
+      MainPage(),
+      StatusPage(),
+      SettingPage(),
+    ];
+
     super.initState();
 
     getLocationData();
@@ -33,50 +46,26 @@ class _HomePageState extends State<HomePage> {
     longitude = location.longitude;
 
     NetworkHelper networkHelper = NetworkHelper(
-        'http://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=apiKey');
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=apiKey');
 
     var weatherData = await networkHelper.getData();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print('$_selectedIndex');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //  appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            WeatherStatus(),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 400,
-                    width: 400,
-                    child: GridView.custom(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 2 / 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                      ),
-                      childrenDelegate: SliverChildListDelegate([
-                        Devices(),
-                        Devices(),
-                        Devices(),
-                        Devices(),
-                      ]),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomFloatingActionButton()
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: _children[_selectedIndex],
+      bottomNavigationBar: BottomNavBar(
+        onTap: _onItemTapped,
+        selectedIndex: _selectedIndex,
       ),
     );
   }
