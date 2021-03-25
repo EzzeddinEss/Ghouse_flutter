@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/network.dart';
-import '../widgets/button_state_control.dart';
-import '../widgets/devices.dart';
-import '../widgets/weather_status.dart';
 import '../models/location.dart';
 import '../widgets/bottomNavBar.dart';
 import '../pages/main_page.dart';
@@ -23,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   double latitude;
   double longitude;
 
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   List<Widget> _children;
 
   @override

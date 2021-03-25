@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_switch/flutter_switch.dart';
 
 class Devices extends StatefulWidget {
   Devices({Key key}) : super(key: key);
@@ -10,22 +9,22 @@ class Devices extends StatefulWidget {
 
 class _DevicesState extends State<Devices> {
   bool isChecked = false;
-  int containerState = 0;
+
   Decoration containerBackColor = BoxDecoration(color: Colors.grey);
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: GridTile(
         child: GestureDetector(
           onTap: () {
-            _onTileClicked();
             _onTab(true);
           },
           child: Container(
-            height: 200,
-            width: 100,
+            height: size.height * 0.8,
+            width: size.width * 0.2,
             decoration: containerBackColor,
             child: Column(
               children: [
@@ -48,38 +47,23 @@ class _DevicesState extends State<Devices> {
     );
   }
 
-  _onTab(bool val) {
+  _onTab(val) {
     {
       setState(() {
-        if (isChecked == val) {
-          isChecked = false;
-          print('$val');
-        } else {
-          isChecked = true;
-        }
+        isChecked = !isChecked;
+        isChecked == false
+            ? containerBackColor = BoxDecoration(color: Colors.grey)
+            : containerBackColor = BoxDecoration(
+                gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF569DFA),
+                  Color(0xFF3876F6),
+                ],
+              ));
       });
     }
-  }
-
-  void _onTileClicked() {
-    setState(() {
-      if (containerState == 1) {
-        containerState = 0;
-        containerBackColor = BoxDecoration(color: Colors.grey);
-      } else {
-        containerState = 1;
-        containerBackColor = BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF569DFA),
-              Color(0xFF3876F6),
-            ],
-          ),
-        );
-      }
-    });
   }
 }
 

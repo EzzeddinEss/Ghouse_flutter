@@ -13,7 +13,7 @@ class StatusPage extends StatelessWidget {
       ),
       body: Container(
         height: 200,
-        width: 300,
+        width: size.width,
         decoration: BoxDecoration(color: kPrimaryColor),
       ),
     );

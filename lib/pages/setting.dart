@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:green_house/widgets/constants.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key key}) : super(key: key);
@@ -13,7 +12,7 @@ class SettingPage extends StatelessWidget {
       ),
       body: Container(
         height: 200,
-        width: 300,
+        width: size.width,
         decoration: BoxDecoration(color: Colors.indigo[400]),
       ),
     );

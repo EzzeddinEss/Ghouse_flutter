@@ -19,9 +19,8 @@ class GreenHouse extends StatelessWidget {
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: Colors.greenAccent, elevation: 10),
       ),
-      home: //LoginPage(),
-          HomePage(),
-      //TestWidget(),
+      home: LoginPage(),
+      // HomePage(),
     );
   }
 }

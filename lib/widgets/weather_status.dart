@@ -10,11 +10,12 @@ class WeatherStatus extends StatefulWidget {
 class _WetherStatusState extends State<WeatherStatus> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return ClipPath(
       clipper: MyClipper(),
       child: Container(
-        height: 300,
-        width: double.infinity,
+        height: size.height * 0.4,
+        width: size.width * 1,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
