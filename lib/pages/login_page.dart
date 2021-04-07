@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:green_house/pages/home_page.dart';
 import '../widgets/custom_button.dart';
@@ -8,8 +10,63 @@ import '../widgets/constants.dart';
 import '../widgets/text_class.dart';
 import '../widgets/custom_text_form_field.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>['email'],
+  );
+
+  GoogleSignInAccount _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+      setState(() {
+        _currentUser = account;
+      });
+
+      if (_currentUser != null) {
+        _handleFirebase();
+      }
+    });
+
+    _googleSignIn.signInSilently(); //Auto login if previous login was success
+  }
+
+  Future<User> _handleFirebase() async {
+    final GoogleSignInAuthentication googleAuth =
+        await _currentUser.authentication;
+
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+
+    final UserCredential authResult =
+        await firebaseAuth.signInWithCredential(credential);
+
+    final User firebaseUser = authResult.user;
+
+    if (firebaseUser != null) {
+      print('Login');
+
+      Get.to(() => HomePage());
+    }
+    return firebaseUser;
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +133,10 @@ class LoginPage extends StatelessWidget {
                 Get.to(() => HomePage());
               },
             ),
+            CustomAppButton(
+              btnText: 'Google Sign in',
+              btnOnPressed: _handleSignIn,
+            )
           ],
         ),
       ),

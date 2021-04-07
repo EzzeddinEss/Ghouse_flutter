@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:green_house/pages/login_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../models/network.dart';
 import '../models/location.dart';
@@ -58,7 +61,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //  appBar: AppBar(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text('Home Page'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: new IconButton(
+            icon: Icon(Icons.reorder), onPressed: handleLoginOutPopup),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: _children[_selectedIndex],
       bottomNavigationBar: BottomNavBar(
         onTap: _onItemTapped,
@@ -66,6 +78,52 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  handleLoginOutPopup() {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "Login Out",
+      desc: "Do you want to login out now?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "No",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.teal,
+        ),
+        DialogButton(
+          child: Text(
+            "Yes",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {},
+          // handleSignOut,
+          color: Colors.teal,
+        )
+      ],
+    ).show();
+  }
+
+//   Future<Null> handleSignOut() async {
+//     this.setState(() {
+//       isLoading = true;
+//     });
+
+//     await FirebaseAuth.instance.signOut();
+//     await googleSignIn.signOut();
+
+//     this.setState(() {
+//       isLoading = false;
+//     });
+
+//     Navigator.of(context).pushAndRemoveUntil(
+//         MaterialPageRoute(builder: (context) => LoginPage()),
+//         (Route<dynamic> route) => false);
+//   }
+
 }
 
 // double temeprature = decodeData['main']['temp'];
