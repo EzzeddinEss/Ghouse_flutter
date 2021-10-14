@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:green_house/models/green_house_icons.dart';
+
 
 class Devices extends StatefulWidget {
   Devices({Key key}) : super(key: key);
@@ -8,6 +10,7 @@ class Devices extends StatefulWidget {
 }
 
 class _DevicesState extends State<Devices> {
+
   bool isChecked = false;
 
   Decoration containerBackColor = BoxDecoration(color: Colors.grey);
@@ -28,16 +31,24 @@ class _DevicesState extends State<Devices> {
             decoration: containerBackColor,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 15, left: 15),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Switch(value: isChecked, onChanged: _onTab),
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Padding(padding: EdgeInsets.only(top: 15, left: 10),
+                          child: Icon(MyFlutterApp.air_conditioner,size: 30,),),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 15, left: 50),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Switch(value: isChecked, onChanged: _onTab),
+                        ),
+                      ),
+
+                    ],
+                  ),
                 ),
               ],
             ),

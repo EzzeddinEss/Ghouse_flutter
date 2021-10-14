@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:green_house/pages/about_us.dart';
+import 'package:green_house/pages/login_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../models/network.dart';
 import '../models/location.dart';
@@ -21,15 +25,21 @@ class _HomePageState extends State<HomePage> {
   double longitude;
 
   int _selectedIndex = 0;
-  List<Widget> _children;
+  // ignore: deprecated_member_use
+  List<Widget> _children = List<Widget>();
 
   @override
   void initState() {
-    _children = [
-      MainPage(),
-      StatusPage(),
-      SettingPage(),
-    ];
+
+    _children.add(MainPage());
+    _children.add(StatusPage());
+    _children.add(SettingPage());
+_children.add(AboutUs());
+    // _children = [
+    //   MainPage(),
+    //   StatusPage(),
+    //   SettingPage(),
+    // ];
 
     super.initState();
 
@@ -58,14 +68,70 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //  appBar: AppBar(),
-      body: _children[_selectedIndex],
+      extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   title: Text('Home Page'),
+      //   centerTitle: true,
+      //   automaticallyImplyLeading: false,
+      //   leading: new IconButton(
+      //       icon: Icon(Icons.reorder), onPressed: handleLoginOutPopup),
+      //   elevation: 0,
+      //   backgroundColor: Colors.transparent,
+      // ),
+      body: IndexedStack(children: _children,index: _selectedIndex,),
+      //_children[_selectedIndex],
       bottomNavigationBar: BottomNavBar(
         onTap: _onItemTapped,
         selectedIndex: _selectedIndex,
       ),
     );
   }
+
+  handleLoginOutPopup() {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "Login Out",
+      desc: "Do you want to login out now?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "No",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.teal,
+        ),
+        DialogButton(
+          child: Text(
+            "Yes",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {},
+          // handleSignOut,
+          color: Colors.teal,
+        )
+      ],
+    ).show();
+  }
+
+//   Future<Null> handleSignOut() async {
+//     this.setState(() {
+//       isLoading = true;
+//     });
+
+//     await FirebaseAuth.instance.signOut();
+//     await googleSignIn.signOut();
+
+//     this.setState(() {
+//       isLoading = false;
+//     });
+
+//     Navigator.of(context).pushAndRemoveUntil(
+//         MaterialPageRoute(builder: (context) => LoginPage()),
+//         (Route<dynamic> route) => false);
+//   }
+
 }
 
 // double temeprature = decodeData['main']['temp'];

@@ -53,7 +53,16 @@ class BottomNavBar extends StatelessWidget {
             label: 'Setting',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.attribution_outlined), label: 'about us'),
+              icon: selectedIndex == 3
+                  ? Icon(
+                      Icons.attribution_outlined,
+                      color: Colors.white,
+                    )
+                  : Icon(
+                      Icons.attribution_outlined,
+                      color: Colors.grey,
+                    ),
+              label: 'about us'),
         ],
       ),
     );
